@@ -63,6 +63,22 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: bookings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.bookings (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    start_time timestamp without time zone,
+    duration integer,
+    details text,
+    account_id uuid NOT NULL,
+    vehicle_id uuid NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
 -- Name: email_addresses; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -198,6 +214,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
+-- Name: bookings bookings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bookings
+    ADD CONSTRAINT bookings_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: email_addresses email_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -235,6 +259,20 @@ ALTER TABLE ONLY public.telephones
 
 ALTER TABLE ONLY public.vehicles
     ADD CONSTRAINT vehicles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_bookings_on_account_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_bookings_on_account_id ON public.bookings USING btree (account_id);
+
+
+--
+-- Name: index_bookings_on_vehicle_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_bookings_on_vehicle_id ON public.bookings USING btree (vehicle_id);
 
 
 --
@@ -279,6 +317,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200522190853'),
 ('20200522192028'),
 ('20200522195520'),
-('20200522203251');
+('20200522203251'),
+('20200522214224');
 
 
