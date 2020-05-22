@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :email_address do
-    email { "MyString" }
-    primary { "" }
-    identity { nil }
+    association :identity, strategy: :create
+    email { Faker::Internet.email }
+    preferred { "" }
   end
 end

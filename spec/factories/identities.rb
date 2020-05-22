@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :identity do
-    first_name { "MyString" }
-    last_name { "MyString" }
-    account { nil }
+    association :account, strategy: :create
+
+    first_name { Faker::Name.first_name }
+    last_name { Faker::Name.last_name }
   end
 end
