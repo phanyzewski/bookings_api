@@ -107,10 +107,51 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: telephones; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.telephones (
+    id bigint NOT NULL,
+    phone_number character varying,
+    preferred boolean,
+    allow_sms boolean,
+    identity_id uuid NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: telephones_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.telephones_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: telephones_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.telephones_id_seq OWNED BY public.telephones.id;
+
+
+--
 -- Name: email_addresses id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.email_addresses ALTER COLUMN id SET DEFAULT nextval('public.email_addresses_id_seq'::regclass);
+
+
+--
+-- Name: telephones id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.telephones ALTER COLUMN id SET DEFAULT nextval('public.telephones_id_seq'::regclass);
 
 
 --
@@ -154,6 +195,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: telephones telephones_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.telephones
+    ADD CONSTRAINT telephones_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: index_email_addresses_on_identity_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -168,6 +217,13 @@ CREATE INDEX index_identities_on_account_id ON public.identities USING btree (ac
 
 
 --
+-- Name: index_telephones_on_identity_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_telephones_on_identity_id ON public.telephones USING btree (identity_id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -177,6 +233,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200522184948'),
 ('20200522185130'),
 ('20200522185713'),
-('20200522190237');
+('20200522190237'),
+('20200522190853');
 
 
