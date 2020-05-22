@@ -51,6 +51,39 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: email_addresses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.email_addresses (
+    id bigint NOT NULL,
+    email character varying,
+    preferred boolean,
+    identity_id uuid NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: email_addresses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.email_addresses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: email_addresses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.email_addresses_id_seq OWNED BY public.email_addresses.id;
+
+
+--
 -- Name: identities; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -74,6 +107,13 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: email_addresses id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.email_addresses ALTER COLUMN id SET DEFAULT nextval('public.email_addresses_id_seq'::regclass);
+
+
+--
 -- Name: accounts accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -87,6 +127,14 @@ ALTER TABLE ONLY public.accounts
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: email_addresses email_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.email_addresses
+    ADD CONSTRAINT email_addresses_pkey PRIMARY KEY (id);
 
 
 --
@@ -106,6 +154,13 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: index_email_addresses_on_identity_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_email_addresses_on_identity_id ON public.email_addresses USING btree (identity_id);
+
+
+--
 -- Name: index_identities_on_account_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -121,6 +176,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('20200522184948'),
 ('20200522185130'),
-('20200522185713');
+('20200522185713'),
+('20200522190237');
 
 
