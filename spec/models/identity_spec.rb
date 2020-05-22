@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Identity, type: :model do
-  subject { FactoryBot.build(:identity) }
+  subject { FactoryBot.create(:identity) }
 
   it { should belong_to(:account) }
 
