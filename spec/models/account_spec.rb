@@ -1,5 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Account, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject { FactoryBot.build(:account) }
+  it { should have_many(:vehicles)}
+  it { should have_many(:identities)}
+  it { should have_many(:bookings)}
 end
