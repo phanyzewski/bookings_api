@@ -51,6 +51,20 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: identities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.identities (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    first_name character varying,
+    last_name character varying,
+    account_id uuid NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -76,11 +90,26 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
+-- Name: identities identities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identities
+    ADD CONSTRAINT identities_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: index_identities_on_account_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_identities_on_account_id ON public.identities USING btree (account_id);
 
 
 --
@@ -91,6 +120,7 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('20200522184948'),
-('20200522185130');
+('20200522185130'),
+('20200522185713');
 
 
