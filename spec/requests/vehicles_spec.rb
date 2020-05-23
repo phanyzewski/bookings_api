@@ -2,20 +2,27 @@ require 'rails_helper'
 
 RSpec.describe "/vehicles", type: :request do
   let(:vin) { Faker::Vehicle.vin }
-  let(:year) { 2005 }
+  let(:make) { Faker::Vehicle.make }
+  let(:model) { Faker::Vehicle.model }
+  let(:year) { Faker::Vehicle.year }
+  let(:color) { Faker::Vehicle.color }
+
   let(:account) { Account.create! }
   let(:valid_attributes) {
     {
       account_id: account.id,
       vin: vin,
-      year: year
+      year: year,
+      make: make,
+      model: model,
+      color: color
     }
   }
 
   let(:invalid_attributes) {
     {
-      vin: '',
-      year: ''
+      vin: "",
+      year: ""
     }
   }
 
