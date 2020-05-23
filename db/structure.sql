@@ -23,6 +23,18 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
 COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
 
 
+--
+-- Name: telephone_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.telephone_type AS ENUM (
+    'mobile',
+    'office',
+    'home',
+    'other'
+);
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -117,7 +129,8 @@ CREATE TABLE public.telephones (
     allow_sms boolean,
     identity_id uuid NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    phone_type public.telephone_type
 );
 
 
@@ -234,6 +247,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200522185130'),
 ('20200522185713'),
 ('20200522190237'),
-('20200522190853');
+('20200522190853'),
+('20200522192028'),
+('20200522195520');
 
 
