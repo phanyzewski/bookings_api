@@ -154,6 +154,20 @@ ALTER SEQUENCE public.telephones_id_seq OWNED BY public.telephones.id;
 
 
 --
+-- Name: vehicles; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.vehicles (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    vin character varying,
+    year integer,
+    account_id uuid NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
 -- Name: email_addresses id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -216,6 +230,14 @@ ALTER TABLE ONLY public.telephones
 
 
 --
+-- Name: vehicles vehicles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vehicles
+    ADD CONSTRAINT vehicles_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: index_email_addresses_on_identity_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -237,6 +259,13 @@ CREATE INDEX index_telephones_on_identity_id ON public.telephones USING btree (i
 
 
 --
+-- Name: index_vehicles_on_account_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_vehicles_on_account_id ON public.vehicles USING btree (account_id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -249,6 +278,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200522190237'),
 ('20200522190853'),
 ('20200522192028'),
-('20200522195520');
+('20200522195520'),
+('20200522203251');
 
 
