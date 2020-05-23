@@ -179,7 +179,10 @@ CREATE TABLE public.vehicles (
     year integer,
     account_id uuid NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    make character varying,
+    model character varying,
+    color character varying
 );
 
 
@@ -318,6 +321,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200522192028'),
 ('20200522195520'),
 ('20200522203251'),
-('20200522214224');
+('20200522214224'),
+('20200523223954');
 
 
