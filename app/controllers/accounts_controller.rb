@@ -3,8 +3,7 @@ class AccountsController < ApplicationController
 
   # GET /accounts
   def index
-    @accounts = Account.all
-    render json: @accounts
+    render jsonapi: Account.all
   end
 
 # GET /accounts/search
@@ -15,12 +14,12 @@ class AccountsController < ApplicationController
     response << Account.find_by_phone_number(params[:phone_number]) if search_params.dig(:phone_number)
     response << Account.find_by_name(params[:last_name], params[:first_name]) if search_params.dig(:last_name)
 
-    render json: response.flatten.uniq
+    render jsonapi: response.flatten.uniq
   end
 
   # GET /accounts/1
   def show
-    render json: @account
+    render jsonapi: @account
   end
 
   # POST /accounts
@@ -28,9 +27,9 @@ class AccountsController < ApplicationController
     @account = Account.new(account_params)
 
     if @account.save
-      render json: @account, status: :created, location: @account
+      render jsonapi: @account, status: :created, location: @account
     else
-      render json: @account.errors, status: :unprocessable_entity
+      render jsonapi_errors: @account.errors, status: :unprocessable_entity
     end
   end
 
