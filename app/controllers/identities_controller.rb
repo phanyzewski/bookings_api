@@ -5,31 +5,72 @@ class IdentitiesController < ApplicationController
   def index
     @identities = Identity.all
 
-    render json: @identities
+    render jsonapi: @identities
   end
 
   # GET /identities/1
   def show
-    render json: @identity
+    render jsonapi: @identity
   end
 
   # POST /identities
   def create
-    @identity = Identity.new(identity_params)
+    @identity = Identity.new(
+      account_id: identity_params.fetch('account_id') { Account.create!.id },
+      first_name: identity_params['first_name'],
+      last_name: identity_params['last_name'],
+      )
 
     if @identity.save
-      render json: @identity, status: :created, location: @identity
+      if email_params.dig(:email_address, :email).present?
+        EmailAddress.create!(
+          identity_id: @identity.id,
+          email: email_params.dig(:email_address, :email),
+          preferred: email_params.dig(:email_address, :preferred)
+        )
+      end
+
+      if telephone_params.dig(:telephone, :phone_number).present?
+        Telephone.create!(
+          identity_id: @identity.id,
+          phone_number: telephone_params.dig(:telephone, :phone_number),
+          preferred: telephone_params.dig(:telephone, :preferred),
+          phone_type: telephone_params.dig(:telephone, :phone_type),
+          allow_sms: telephone_params.dig(:telephone, :allow_sms),
+        )
+      end
+
+      render jsonapi: @identity, status: :created, location: @identity
     else
-      render json: @identity.errors, status: :unprocessable_entity
+      render jsonapi_errors: @identity.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /identities/1
   def update
     if @identity.update(identity_params)
-      render json: @identity
+
+      if email_params.dig(:email_address, :email).present?
+        EmailAddress.create!(
+          identity_id: @identity.id,
+          email: email_params.dig(:email_address, :email),
+          preferred: email_params.dig(:email_address, :preferred)
+        )
+      end
+
+      if telephone_params.dig(:telephone, :phone_number).present?
+        Telephone.create!(
+          identity_id: @identity.id,
+          phone_number: telephone_params.dig(:telephone, :phone_number),
+          preferred: telephone_params.dig(:telephone, :preferred),
+          phone_type: telephone_params.dig(:telephone, :phone_type),
+          allow_sms: telephone_params.dig(:telephone, :allow_sms),
+        )
+      end
+
+      render jsonapi: @identity
     else
-      render json: @identity.errors, status: :unprocessable_entity
+      render jsonapi_errors: @identity.errors, status: :unprocessable_entity
     end
   end
 
@@ -46,6 +87,20 @@ class IdentitiesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def identity_params
-      params.require(:identity).permit(:first_name, :last_name, :account_id)
+      params.require(:identity).permit(
+        :first_name, :last_name, :account_id,
+        )
+    end
+
+    def email_params
+      params.permit(
+        email_address: %i[email preferred]
+        )
+    end
+
+    def telephone_params
+      params.permit(
+        telephone: %i[phone_number preferred phone_type allow_sms]
+        )
     end
 end
