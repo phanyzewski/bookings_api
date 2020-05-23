@@ -5,12 +5,12 @@ class VehiclesController < ApplicationController
   def index
     @vehicles = Vehicle.all
 
-    render json: @vehicles
+    render jsonapi: @vehicles
   end
 
   # GET /vehicles/1
   def show
-    render json: @vehicle
+    render jsonapi: @vehicle
   end
 
   # POST /vehicles
@@ -18,18 +18,18 @@ class VehiclesController < ApplicationController
     @vehicle = Vehicle.new(vehicle_params)
 
     if @vehicle.save
-      render json: @vehicle, status: :created, location: @vehicle
+      render jsonapi: @vehicle, status: :created, location: @vehicle
     else
-      render json: @vehicle.errors, status: :unprocessable_entity
+      render jsonapi_errors: @vehicle.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /vehicles/1
   def update
     if @vehicle.update(vehicle_params)
-      render json: @vehicle
+      render jsonapi: @vehicle
     else
-      render json: @vehicle.errors, status: :unprocessable_entity
+      render jsonapi_errors: @vehicle.errors, status: :unprocessable_entity
     end
   end
 
