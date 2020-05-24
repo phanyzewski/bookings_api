@@ -12,6 +12,8 @@ This api allows its client to capture all of the above information in a single s
 * Ruby version 2.7.1
 
 * PostgresDB
+bundle install
+``
 
 ```sh
 bundle install
@@ -22,6 +24,8 @@ bundle exec rails db:create db:migrate
 ```
 
 ## Testing
+bundle exec rspec spec/
+```
 
 ```sh
 bundle exec rspec spec/
