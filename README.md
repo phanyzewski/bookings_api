@@ -1,5 +1,7 @@
 # Bookings API
 
+[![Build Status](https://travis-ci.org/phanyzewski/bookings_api.svg?branch=master)](https://travis-ci.org/phanyzewski/bookings_api)
+
 Bookings api is a first class client api not intended as a public interface.
 This api allows a client to create an account and create or associate it with customer identities, vehicles and bookings.
 
