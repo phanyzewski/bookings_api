@@ -3,14 +3,14 @@ class BookingsController < ApplicationController
 
   # GET /bookings
   def index
-    @bookings = Booking.all
-
-    render json: @bookings
+    jsonapi_paginate(Booking.all) do |paginated|
+      render jsonapi: paginated
+    end
   end
 
   # GET /bookings/1
   def show
-    render json: @booking
+    render jsonapi: @booking
   end
 
   # POST /bookings
@@ -18,18 +18,18 @@ class BookingsController < ApplicationController
     @booking = Booking.new(booking_params)
 
     if @booking.save
-      render json: @booking, status: :created, location: @booking
+      render jsonapi: @booking, status: :created, location: @booking
     else
-      render json: @booking.errors, status: :unprocessable_entity
+      render jsonapi_errors: @booking.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /bookings/1
   def update
     if @booking.update(booking_params)
-      render json: @booking
+      render jsonapi: @booking
     else
-      render json: @booking.errors, status: :unprocessable_entity
+      render jsonapi_errors: @booking.errors, status: :unprocessable_entity
     end
   end
 
