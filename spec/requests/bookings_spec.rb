@@ -4,13 +4,15 @@ RSpec.describe "/bookings", type: :request do
   let(:vin) { Faker::Vehicle.vin }
   let(:vehicle) { FactoryBot.create(:vehicle, account_id: account.id) }
   let(:details) { "Customer feels vibration in steering wheel while braking." }
+  let(:work_order){ '{"job_id":"1","duration":"2","work":[{"diag":"1","oil change":"0.5","rotation":"0.5"}]}' }
   let(:valid_attributes) {
     {
       account_id: account.id,
       vehicle_id: vehicle.id,
       start_time: Time.current + 1.day,
       duration: 1.hour,
-      details: details
+      details: details,
+      work_order: work_order
     }
   }
 
@@ -57,7 +59,7 @@ RSpec.describe "/bookings", type: :request do
         post bookings_url,
              params: { booking: valid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
-        expect(response.content_type).to match(a_string_including("application/json; charset=utf-8"))
+        expect(response.content_type).to match(a_string_including("application/vnd.api+json; charset=utf-8"))
       end
     end
 
@@ -73,7 +75,7 @@ RSpec.describe "/bookings", type: :request do
         post bookings_url,
              params: { booking: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json; charset=utf-8")
+        expect(response.content_type).to eq("application/vnd.api+json; charset=utf-8")
       end
     end
   end
@@ -103,7 +105,7 @@ RSpec.describe "/bookings", type: :request do
         patch booking_url(booking),
               params: { booking: new_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:ok)
-        expect(response.content_type).to eq("application/json; charset=utf-8")
+        expect(response.content_type).to eq("application/vnd.api+json; charset=utf-8")
       end
     end
 
@@ -113,7 +115,7 @@ RSpec.describe "/bookings", type: :request do
         patch booking_url(booking),
               params: { booking: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json; charset=utf-8")
+        expect(response.content_type).to eq("application/vnd.api+json; charset=utf-8")
       end
     end
   end
