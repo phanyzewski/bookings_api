@@ -74,7 +74,8 @@ CREATE TABLE public.bookings (
     account_id uuid NOT NULL,
     vehicle_id uuid NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    work_order jsonb
 );
 
 
@@ -322,6 +323,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200522195520'),
 ('20200522203251'),
 ('20200522214224'),
-('20200523223954');
+('20200523223954'),
+('20200524213637');
 
 
