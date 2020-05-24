@@ -3,7 +3,9 @@ class AccountsController < ApplicationController
 
   # GET /accounts
   def index
-    render jsonapi: Account.all
+    jsonapi_paginate(Account.all) do |paginated|
+      render jsonapi: paginated
+    end
   end
 
 # GET /accounts/search

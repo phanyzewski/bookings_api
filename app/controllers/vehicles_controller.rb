@@ -3,9 +3,9 @@ class VehiclesController < ApplicationController
 
   # GET /vehicles
   def index
-    @vehicles = Vehicle.all
-
-    render jsonapi: @vehicles
+    jsonapi_paginate(Vehicle.all) do |paginated|
+      render jsonapi: paginated
+    end
   end
 
   # GET /vehicles/1
