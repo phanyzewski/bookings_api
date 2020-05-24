@@ -3,9 +3,9 @@ class IdentitiesController < ApplicationController
 
   # GET /identities
   def index
-    @identities = Identity.all
-
-    render jsonapi: @identities
+    jsonapi_paginate(Identity.all) do |paginated|
+      render jsonapi: paginated
+    end
   end
 
   # GET /identities/1
