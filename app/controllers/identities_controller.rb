@@ -1,5 +1,5 @@
 class IdentitiesController < ApplicationController
-  before_action :set_identity, only: [:show, :update, :destroy]
+  before_action :set_identity, only: %i[show update destroy]
 
   # GET /identities
   def index
@@ -16,17 +16,17 @@ class IdentitiesController < ApplicationController
   # POST /identities
   def create
     @identity = Identity.new(
-      account_id: identity_params.fetch('account_id') { Account.create!.id },
-      first_name: identity_params['first_name'],
-      last_name: identity_params['last_name'],
-      )
+      account_id: identity_params.fetch("account_id") { Account.create!.id },
+      first_name: identity_params["first_name"],
+      last_name: identity_params["last_name"],
+    )
 
     if @identity.save
       if email_params.dig(:email_address, :email).present?
         EmailAddress.create!(
           identity_id: @identity.id,
           email: email_params.dig(:email_address, :email),
-          preferred: email_params.dig(:email_address, :preferred)
+          preferred: email_params.dig(:email_address, :preferred),
         )
       end
 
@@ -54,7 +54,7 @@ class IdentitiesController < ApplicationController
         EmailAddress.create!(
           identity_id: @identity.id,
           email: email_params.dig(:email_address, :email),
-          preferred: email_params.dig(:email_address, :preferred)
+          preferred: email_params.dig(:email_address, :preferred),
         )
       end
 
@@ -80,27 +80,28 @@ class IdentitiesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_identity
-      @identity = Identity.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def identity_params
-      params.require(:identity).permit(
-        :first_name, :last_name, :account_id,
-        )
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_identity
+    @identity = Identity.find(params[:id])
+  end
 
-    def email_params
-      params.permit(
-        email_address: %i[email preferred]
-        )
-    end
+  # Only allow a trusted parameter "white list" through.
+  def identity_params
+    params.require(:identity).permit(
+      :first_name, :last_name, :account_id
+    )
+  end
 
-    def telephone_params
-      params.permit(
-        telephone: %i[phone_number preferred phone_type allow_sms]
-        )
-    end
+  def email_params
+    params.permit(
+      email_address: %i[email preferred],
+    )
+  end
+
+  def telephone_params
+    params.permit(
+      telephone: %i[phone_number preferred phone_type allow_sms],
+    )
+  end
 end

@@ -15,14 +15,14 @@ RSpec.describe "/vehicles", type: :request do
       year: year,
       make: make,
       model: model,
-      color: color
+      color: color,
     }
   }
 
   let(:invalid_attributes) {
     {
       vin: "",
-      year: ""
+      year: "",
     }
   }
 

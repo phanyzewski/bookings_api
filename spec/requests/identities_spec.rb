@@ -18,7 +18,7 @@ RSpec.describe "/identities", type: :request do
       account_id: 1,
       first_name: '',
       last_name: '',
-     }
+    }
   }
 
   let(:valid_headers) {
@@ -62,12 +62,12 @@ RSpec.describe "/identities", type: :request do
       let(:email_attributes) {
         { email_address: { email: email, preferred: true } }
       }
+
       it "creates a new identity with an email" do
         post identities_url,
              params: { identity: valid_attributes.merge(email_attributes) }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/vnd.api+json; charset=utf-8"))
-
       end
     end
 

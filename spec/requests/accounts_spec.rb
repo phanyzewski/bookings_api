@@ -13,18 +13,18 @@ RSpec.describe "/accounts", type: :request do
   let(:first_name) { Faker::Name.first_name }
   let(:vin) { Faker::Vehicle.vin }
 
-    let(:search_params) {
+  let(:search_params) {
     {
       email_address: email_address,
       phone_number: phone_number,
       last_name: last_name,
       first_name: first_name,
-      vin:vin
+      vin: vin,
     }
   }
 
   let(:invalid_attributes) {
-  {}
+    {}
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -85,7 +85,7 @@ RSpec.describe "/accounts", type: :request do
       expect(collection.first.dig('id')).to eq(account.id)
     end
 
-  it "finds the requested resource by vin" do
+    it "finds the requested resource by vin" do
       account = Account.create! valid_attributes
       vehicle = Vehicle.create!(account_id: account.id, vin: Faker::Vehicle.vin, year: 2005)
 
@@ -94,7 +94,7 @@ RSpec.describe "/accounts", type: :request do
       expect(collection.first.dig('id')).to eq(account.id)
     end
 
-     it "returns all collections if there are multiple matches" do
+    it "returns all collections if there are multiple matches" do
       account = Account.create! valid_attributes
       account1 = Account.create! valid_attributes
       Vehicle.create!(account_id: account.id, vin: vin, year: 2005)
