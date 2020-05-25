@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'accounts/search', to: 'accounts#search'
+  get "accounts/search", to: "accounts#search"
   resources :accounts, only: %i[index show create destroy] do
     resources :vehicles
     resources :bookings

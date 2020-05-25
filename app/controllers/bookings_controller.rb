@@ -1,5 +1,5 @@
 class BookingsController < ApplicationController
-  before_action :set_booking, only: [:show, :update, :destroy]
+  before_action :set_booking, only: %i[show update destroy]
 
   # GET /bookings
   def index
@@ -39,13 +39,14 @@ class BookingsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_booking
-      @booking = Booking.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def booking_params
-      params.require(:booking).permit(:start_time, :duration, :details, :account_id, :vehicle_id, :work_order)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_booking
+    @booking = Booking.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def booking_params
+    params.require(:booking).permit(:start_time, :duration, :details, :account_id, :vehicle_id, :work_order)
+  end
 end

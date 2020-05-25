@@ -4,7 +4,7 @@ RSpec.describe "/bookings", type: :request do
   let(:vin) { Faker::Vehicle.vin }
   let(:vehicle) { FactoryBot.create(:vehicle, account_id: account.id) }
   let(:details) { "Customer feels vibration in steering wheel while braking." }
-  let(:work_order){ '{"job_id":"1","duration":"2","work":[{"diag":"1","oil change":"0.5","rotation":"0.5"}]}' }
+  let(:work_order) { '{"job_id":"1","duration":"2","work":[{"diag":"1","oil change":"0.5","rotation":"0.5"}]}' }
   let(:valid_attributes) {
     {
       account_id: account.id,
@@ -12,7 +12,7 @@ RSpec.describe "/bookings", type: :request do
       start_time: Time.current + 1.day,
       duration: 1.hour,
       details: details,
-      work_order: work_order
+      work_order: work_order,
     }
   }
 
@@ -22,7 +22,7 @@ RSpec.describe "/bookings", type: :request do
       vehicle_id: '',
       start_time: 'tomorrow',
       duration: 'one hour',
-      details: 1234
+      details: 1234,
     }
   }
 
@@ -86,7 +86,7 @@ RSpec.describe "/bookings", type: :request do
         {
           duration: 2.hours,
           details: "new important details",
-          start_time: Time.current + 1.hour
+          start_time: Time.current + 1.hour,
         }
       }
 
@@ -97,7 +97,6 @@ RSpec.describe "/bookings", type: :request do
         booking.reload
         expect(booking.duration).to eq(2.hours)
         expect(booking.details).to eq("new important details")
-
       end
 
       it "renders a JSON response with the booking" do
